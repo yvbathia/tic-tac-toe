@@ -1,0 +1,14 @@
+.btn {
+  margin: 20px;
+  padding: 12px 23px;
+  border-radius: 0 3px 3px 0;
+  background-color: #4c91f5;
+  color: white;
+  font-size: 20px;
+  min-width: 110px;
+
+  @media only screen and (max-width: 780px) {
+    font-size: 15px;
+    padding: 5px 15px;
+  }
+}

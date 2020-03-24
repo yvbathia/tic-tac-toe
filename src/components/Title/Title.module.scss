@@ -1,0 +1,16 @@
+.root {
+  margin: 20px 0px;
+  color: #4c91f5;
+  font-weight: bold;
+  text-align: center;
+  font-size: 25px;
+  @media only screen and (max-width: 1024px) {
+    font-size: 20px;
+  }
+  @media only screen and (max-width: 780px) {
+    font-size: 15px;
+  }
+  @media only screen and (max-width: 480px) {
+    font-size: 10px;
+  }
+}
