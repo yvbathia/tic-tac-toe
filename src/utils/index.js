@@ -21,3 +21,14 @@ export const isUserWin = (currentTurn, newGameState) => {
   }
   return false;
 };
+
+export const playAI = gameState => {
+  let newArray = [];
+  gameState.forEach((element, index) => {
+    if (element === 2) {
+      newArray.push(index);
+    }
+  });
+  const random = Math.floor(Math.random() * Math.floor(newArray.length));
+  return newArray[random];
+};

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import s from "./Board.module.scss";
 import Title from "../../components/Title";
-import { isUserWin } from "../../utils/findWinner";
-import { defaultGameState, dataMap, defaultTurn } from "../../constants";
+import { isUserWin, playAI } from "../../utils";
+import { defaultGameState, dataMap } from "../../constants";
 import Button from "../../components/Button";
 
 const propTypes = {
@@ -27,7 +27,7 @@ const Board = ({
   isDualPlayMode,
   isCrossSelected
 }) => {
-  const [currentTurn, setCurrentTurn] = useState(defaultTurn);
+  const [currentTurn, setCurrentTurn] = useState(isCrossSelected ? 0 : 1);
   const [isGameOver, setGameOver] = useState(false);
   const onClick = index => {
     if (gameState[index] === 2) {
@@ -38,11 +38,21 @@ const Board = ({
         setGameOver(true);
       } else {
         if (newGameState.indexOf(2) !== -1) {
-          setCurrentTurn((currentTurn + 1) % 2);
+          if (isDualPlayMode) {
+            setCurrentTurn((currentTurn + 1) % 2);
+          } else {
+            const getPos = playAI(newGameState);
+            newGameState[getPos] = isCrossSelected ? 1 : 0;
+            const isWinTheGame = isUserWin((currentTurn + 1) % 2, newGameState);
+            if (isWinTheGame) {
+              setCurrentTurn((currentTurn + 1) % 2);
+              setGameOver(true);
+            }
+          }
           setGameState(newGameState);
         } else {
           setGameState(defaultGameState);
-          setCurrentTurn(defaultTurn);
+          setCurrentTurn(isCrossSelected ? 0 : 1);
         }
       }
     }
@@ -59,7 +69,7 @@ const Board = ({
       setOpponentScore(opponentScore + 1);
     }
     setGameState(defaultGameState);
-    setCurrentTurn(defaultTurn);
+    setCurrentTurn(isCrossSelected ? 0 : 1);
   };
 
   return (
