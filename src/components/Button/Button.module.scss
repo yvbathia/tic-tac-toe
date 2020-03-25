@@ -1,11 +1,12 @@
 .btn {
-  margin: 20px;
+  margin: 10px;
   padding: 12px 23px;
-  border-radius: 0 3px 3px 0;
-  background-color: #4c91f5;
-  color: white;
+  border-radius: 0px 3px 3px 0px;
+  background-color: white;
+  color: black;
   font-size: 20px;
   min-width: 110px;
+  border-radius: 20px;
 
   @media only screen and (max-width: 780px) {
     font-size: 15px;

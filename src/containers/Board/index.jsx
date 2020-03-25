@@ -4,6 +4,7 @@ import s from "./Board.module.scss";
 import Title from "../../components/Title";
 import { isUserWin } from "../../utils/findWinner";
 import { defaultGameState, dataMap, defaultTurn } from "../../constants";
+import Button from "../../components/Button";
 
 const propTypes = {
   isDualPlayMode: PropTypes.bool.isRequired,
@@ -27,22 +28,14 @@ const Board = ({
   isCrossSelected
 }) => {
   const [currentTurn, setCurrentTurn] = useState(defaultTurn);
+  const [isGameOver, setGameOver] = useState(false);
   const onClick = index => {
     if (gameState[index] === 2) {
       let newGameState = [...gameState];
       newGameState[index] = currentTurn;
       const isWinTheGame = isUserWin(currentTurn, newGameState);
       if (isWinTheGame) {
-        if (
-          (isCrossSelected && currentTurn === 0) ||
-          (!isCrossSelected && currentTurn === 1)
-        ) {
-          setYourScore(yourScore + 1);
-        } else {
-          setOpponentScore(opponentScore + 1);
-        }
-        setGameState(defaultGameState);
-        setCurrentTurn(defaultTurn);
+        setGameOver(true);
       } else {
         if (newGameState.indexOf(2) !== -1) {
           setCurrentTurn((currentTurn + 1) % 2);
@@ -55,13 +48,28 @@ const Board = ({
     }
   };
 
+  const onPopUpClose = () => {
+    setGameOver(false);
+    if (
+      (isCrossSelected && currentTurn === 0) ||
+      (!isCrossSelected && currentTurn === 1)
+    ) {
+      setYourScore(yourScore + 1);
+    } else {
+      setOpponentScore(opponentScore + 1);
+    }
+    setGameState(defaultGameState);
+    setCurrentTurn(defaultTurn);
+  };
+
   return (
     <div className={s.root}>
       <div className={s.head}>
-        <span>You: {yourScore}</span>
-        <span>
-          {isDualPlayMode ? "Your Friend" : "AI"}: {opponentScore}
-        </span>
+        <Title>You</Title>
+        <Button>
+          {yourScore} : {opponentScore}
+        </Button>
+        <Title>{isDualPlayMode ? "Your Friend" : "AI"}</Title>
       </div>
       <div className={s.container}>
         {gameState.map((element, index) => {
@@ -77,7 +85,19 @@ const Board = ({
           );
         })}
       </div>
-      <Title>Current Turn : {dataMap[currentTurn]}</Title>
+      {isGameOver && (
+        <div className={s.winnerPopUp}>
+          <div className={s.popUpContent}>
+            <Title>
+              {(isCrossSelected && currentTurn === 0) ||
+              (!isCrossSelected && currentTurn === 1)
+                ? "You win"
+                : "You loss"}
+            </Title>
+            <Button onClick={onPopUpClose}>Retry</Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

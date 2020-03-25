@@ -4,5 +4,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #e5ebdd;
+  background-color: #f7f7f7;
+  > div {
+    max-width: 786px;
+  }
 }

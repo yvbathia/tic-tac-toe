@@ -4,27 +4,13 @@
 }
 
 .container {
-  margin-top: 20px;
-  width: 320px;
-  height: 320px;
-  background-color: #f5f5f5;
+  width: 100vw;
+  height: 60vh;
+  max-width: 786px;
+  background-color: white;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  @media only screen and (min-width: 300px) {
-    width: 200px;
-    height: 200px;
-  }
-
-  @media only screen and (min-width: 480px) {
-    width: 280px;
-    height: 280px;
-  }
-
-  @media only screen and (min-width: 768px) {
-    width: 500px;
-    height: 500px;
-  }
 }
 
 .box {
@@ -35,6 +21,9 @@
   height: 100%;
   margin: auto;
   font-size: 75px;
+  @media (max-width: 780px) {
+    font-size: 50px;
+  }
 
   &:nth-child(1),
   &:nth-child(2),
@@ -57,5 +46,39 @@
 .head {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 20px;
+  > span,
+  button {
+    width: 33%;
+  }
+}
+.winnerPopUp {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popUpContent {
+  width: 50%;
+  height: 50%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

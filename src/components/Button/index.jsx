@@ -4,15 +4,17 @@ import s from "./Button.module.scss";
 
 const propTypes = {
   children: PropTypes.node.isRequired,
+  className: PropTypes.string,
   onClick: PropTypes.func
 };
 
 const defaultProps = {
+  className: "",
   onClick: () => {}
 };
 
-const Button = ({ children, onClick }) => (
-  <button className={s.btn} onClick={onClick}>
+const Button = ({ children, onClick, className }) => (
+  <button className={[s.btn, className].join(" ")} onClick={onClick}>
     {children}
   </button>
 );

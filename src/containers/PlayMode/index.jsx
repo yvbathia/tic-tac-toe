@@ -1,10 +1,11 @@
 import React from "react";
 import s from "./PlayMode.module.scss";
-import logo from "../../Images/logo.png";
 import PropTypes from "prop-types";
 import Button from "../../components/Button";
 import Title from "../../components/Title";
 import Image from "../../components/Image";
+import Cross from "../../Images/cross.png";
+import Circle from "../../Images/circle.png";
 
 const propTypes = {
   setIsDualPlayMode: PropTypes.func.isRequired,
@@ -18,7 +19,10 @@ const PlayMode = ({ setIsDualPlayMode, setPage }) => {
   };
   return (
     <div className={s.root}>
-      <Image src={logo} />
+      <div className={s.logo}>
+        <Image className={s.img} src={Cross} />
+        <Image className={s.img} src={Circle} />
+      </div>
       <Title>Choose your play mode</Title>
       <div className={s.selector}>
         <Button onClick={() => onClick(false)}>With AI</Button>
