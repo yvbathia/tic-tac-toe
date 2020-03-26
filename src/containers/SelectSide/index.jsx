@@ -18,7 +18,7 @@ const SelectSide = ({ isCrossSelected, setIsCrossSelected, setPage }) => {
     <div className={s.root}>
       <Title>Pick your side</Title>
       <div className={s.choiceContainer}>
-        <div className={s.choice}>
+        <div className={s.choice} onClick={() => setIsCrossSelected(true)}>
           <Image src={Cross} />
           <input
             type="radio"
@@ -26,7 +26,7 @@ const SelectSide = ({ isCrossSelected, setIsCrossSelected, setPage }) => {
             onClick={() => setIsCrossSelected(true)}
           />
         </div>
-        <div className={s.choice}>
+        <div className={s.choice} onClick={() => setIsCrossSelected(false)}>
           <Image src={Circle} />
           <input
             type="radio"

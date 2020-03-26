@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 import s from "./Board.module.scss";
 import Title from "../../components/Title";
 import { isUserWin, playAI } from "../../utils";
-import { defaultGameState, dataMap } from "../../constants";
+import { defaultGameState } from "../../constants";
 import Button from "../../components/Button";
+import Cross from "../../Images/cross.png";
+import Circle from "../../Images/circle.png";
+import Image from "../../components/Image";
 
 const propTypes = {
   isDualPlayMode: PropTypes.bool.isRequired,
@@ -58,18 +61,25 @@ const Board = ({
     }
   };
 
-  const onPopUpClose = () => {
+  const onPopUpClose = isContinue => {
     setGameOver(false);
-    if (
-      (isCrossSelected && currentTurn === 0) ||
-      (!isCrossSelected && currentTurn === 1)
-    ) {
-      setYourScore(yourScore + 1);
+    if (isContinue) {
+      if (
+        (isCrossSelected && currentTurn === 0) ||
+        (!isCrossSelected && currentTurn === 1)
+      ) {
+        setYourScore(yourScore + 1);
+      } else {
+        setOpponentScore(opponentScore + 1);
+      }
+      setGameState(defaultGameState);
+      setCurrentTurn(isCrossSelected ? 0 : 1);
     } else {
-      setOpponentScore(opponentScore + 1);
+      setGameState(defaultGameState);
+      setCurrentTurn(isCrossSelected ? 0 : 1);
+      setYourScore(0);
+      setOpponentScore(0);
     }
-    setGameState(defaultGameState);
-    setCurrentTurn(isCrossSelected ? 0 : 1);
   };
 
   return (
@@ -90,7 +100,13 @@ const Board = ({
               onKeyPress={() => onClick(index)}
               className={s.box}
             >
-              {dataMap[element]}
+              {element === 0 ? (
+                <Image className={s.img} src={Cross} />
+              ) : element === 1 ? (
+                <Image className={s.img} src={Circle} />
+              ) : (
+                ""
+              )}
             </div>
           );
         })}
@@ -104,7 +120,8 @@ const Board = ({
                 ? "You win"
                 : "You loss"}
             </Title>
-            <Button onClick={onPopUpClose}>Retry</Button>
+            <Button onClick={() => onPopUpClose(true)}>Continue</Button>
+            <Button onClick={() => onPopUpClose(false)}>New Game</Button>
           </div>
         </div>
       )}
