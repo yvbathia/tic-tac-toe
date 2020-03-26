@@ -32,6 +32,7 @@ const Board = ({
 }) => {
   const [currentTurn, setCurrentTurn] = useState(isCrossSelected ? 0 : 1);
   const [isGameOver, setGameOver] = useState(false);
+  const [isGameDraw, setGameDraw] = useState(false);
   const onClick = index => {
     if (gameState[index] === 2) {
       let newGameState = [...gameState];
@@ -54,8 +55,8 @@ const Board = ({
           }
           setGameState(newGameState);
         } else {
-          setGameState(defaultGameState);
-          setCurrentTurn(isCrossSelected ? 0 : 1);
+          setGameOver(true);
+          setGameDraw(true);
         }
       }
     }
@@ -63,7 +64,8 @@ const Board = ({
 
   const onPopUpClose = isContinue => {
     setGameOver(false);
-    if (isContinue) {
+    setGameDraw(false);
+    if (isContinue && !isGameDraw) {
       if (
         (isCrossSelected && currentTurn === 0) ||
         (!isCrossSelected && currentTurn === 1)
@@ -77,8 +79,10 @@ const Board = ({
     } else {
       setGameState(defaultGameState);
       setCurrentTurn(isCrossSelected ? 0 : 1);
-      setYourScore(0);
-      setOpponentScore(0);
+      if (!isGameDraw) {
+        setYourScore(0);
+        setOpponentScore(0);
+      }
     }
   };
 
@@ -115,8 +119,10 @@ const Board = ({
         <div className={s.winnerPopUp}>
           <div className={s.popUpContent}>
             <Title>
-              {(isCrossSelected && currentTurn === 0) ||
-              (!isCrossSelected && currentTurn === 1)
+              {isGameDraw
+                ? "Draw"
+                : (isCrossSelected && currentTurn === 0) ||
+                  (!isCrossSelected && currentTurn === 1)
                 ? "You win"
                 : "You loss"}
             </Title>
